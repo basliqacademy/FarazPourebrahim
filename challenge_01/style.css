@@ -1,0 +1,95 @@
+body {
+    background-color: #E2F1E7;
+    font-family: "Figtree", sans-serif;
+    font-size: 9px;
+}
+
+.form-wrapper {
+    background-color: #ffffff;
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    margin-top: 75px;
+    padding-top: 10px;
+    border-radius: 10px;
+}
+
+h2{
+    font-size: 18px;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.name-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
+.name {
+    width: 50%;
+}
+
+.label-wrapper {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.label-wrapper p{
+    margin:0 0 5px;
+}
+
+.options-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: auto;
+    width: 100%;
+}
+
+.option {
+    border: 1px solid #AFB4B2;
+    border-radius: 5px;
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.option input {
+    margin-left: 10px;
+}
+
+.consent {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    margin: 10px 0 10px;
+}
+
+input {
+    border: 1px solid #AFB4B2;
+    border-radius: 5px;
+    height: 25px;
+}
+
+textarea {
+    border: 1px solid #AFB4B2;
+    border-radius: 5px;
+    height: 50px;
+}
+
+button {
+    background-color: #0D7C69;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 11px;
+}
