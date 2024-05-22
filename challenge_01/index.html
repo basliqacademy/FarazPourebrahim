@@ -21,14 +21,14 @@
                     <label for="firstname-input">First Name</label>
                     <span class="required">*</span>
                 </div>
-                <input type="text" id="firstname-input"/>
+                <input type="text" id="firstname-input" minlength="4" maxlength="10" required/>
             </div>
             <div class="input-wrapper name">
                 <div class="label-wrapper">
                     <label for="lastname-input">Last Name</label>
                     <span class="required">*</span>
                 </div>
-                <input type="text" id="lastname-input"/>
+                <input type="text" id="lastname-input" minlength="4" maxlength="10" required/>
             </div>
         </div>
         <div class="input-wrapper">
@@ -36,7 +36,7 @@
                 <label for="email-input">Email Address</label>
                 <span class="required">*</span>
             </div>
-            <input type="email" id="email-input"/>
+            <input type="text" id="email-input" pattern="^[\w.+\-]+@gmail\.com$" required/>
         </div>
         <div class="input-wrapper">
             <div class="label-wrapper">
@@ -45,11 +45,11 @@
             </div>
             <div class="options-wrapper">
                 <div class="option">
-                    <input type="radio" name="querytype" id="radiobtn-GE"/>
+                    <input type="radio" name="querytype" id="radiobtn-GE" required/>
                     <label for="radiobtn-GE">General Enquiry</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="querytype" id="radiobtn-SR"/>
+                    <input type="radio" name="querytype" id="radiobtn-SR" required/>
                     <label for="radiobtn-SR">Support Request</label>
                 </div>
             </div>
@@ -59,10 +59,10 @@
                 <label for="message-textarea">Message</label>
                 <span class="required">*</span>
             </div>
-            <textarea id="message-textarea"></textarea>
+            <textarea id="message-textarea" required></textarea>
         </div>
         <div class="input-wrapper consent">
-            <input type="checkbox" id="consent-checkbox"/>
+            <input type="checkbox" id="consent-checkbox" required/>
             <label for="consent-checkbox">I consent to being contacted by the team</label>
             <span class="required">*</span>
         </div>
