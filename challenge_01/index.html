@@ -44,14 +44,14 @@
                 <span class="required">*</span>
             </div>
             <div class="options-wrapper">
-                <div class="option">
-                    <input type="radio" name="querytype" id="radiobtn-GE" required/>
-                    <label for="radiobtn-GE">General Enquiry</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="querytype" id="radiobtn-SR" required/>
-                    <label for="radiobtn-SR">Support Request</label>
-                </div>
+                <label class="option">
+                    <input type="radio" name="querytype" value="general enquiry" required/>
+                    <p>General Enquiry</p>
+                </label>
+                <label class="option">
+                    <input type="radio" name="querytype" value="support request" required/>
+                    <p>Support Request</p>
+                </label>
             </div>
         </div>
         <div class="input-wrapper">
@@ -63,8 +63,10 @@
         </div>
         <div class="input-wrapper consent">
             <input type="checkbox" id="consent-checkbox" required/>
-            <label for="consent-checkbox">I consent to being contacted by the team</label>
-            <span class="required">*</span>
+            <div>
+                <label for="consent-checkbox">I consent to being contacted by the team</label>
+                <span class="required">*</span>
+            </div>
         </div>
         <button type="submit">Submit</button>
     </form>
