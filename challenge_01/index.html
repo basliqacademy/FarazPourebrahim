@@ -10,25 +10,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
           rel="stylesheet">
+
 </head>
 <body>
 <div class="form-wrapper">
     <h2>Contact Us</h2>
-    <form>
+    <form id="contact-form">
         <div class="name-wrapper">
             <div class="input-wrapper name">
                 <div class="label-wrapper">
                     <label for="firstname-input">First Name</label>
                     <span class="required">*</span>
                 </div>
-                <input type="text" id="firstname-input" minlength="4" maxlength="10" required/>
+                <input type="text" id="firstname-input"/>
             </div>
             <div class="input-wrapper name">
                 <div class="label-wrapper">
                     <label for="lastname-input">Last Name</label>
                     <span class="required">*</span>
                 </div>
-                <input type="text" id="lastname-input" minlength="4" maxlength="10" required/>
+                <input type="text" id="lastname-input"/>
             </div>
         </div>
         <div class="input-wrapper">
@@ -36,7 +37,7 @@
                 <label for="email-input">Email Address</label>
                 <span class="required">*</span>
             </div>
-            <input type="text" id="email-input" pattern="^[\w.+\-]+@gmail\.com$" required/>
+            <input type="text" id="email-input" />
         </div>
         <div class="input-wrapper">
             <div class="label-wrapper">
@@ -45,11 +46,11 @@
             </div>
             <div class="options-wrapper">
                 <label class="option">
-                    <input type="radio" name="querytype" value="general enquiry" required/>
+                    <input id="radio-btn-GE" type="radio" name="querytype" value="general enquiry" />
                     <p>General Enquiry</p>
                 </label>
                 <label class="option">
-                    <input type="radio" name="querytype" value="support request" required/>
+                    <input id="radio-btn-SR" type="radio" name="querytype" value="support request" />
                     <p>Support Request</p>
                 </label>
             </div>
@@ -59,10 +60,10 @@
                 <label for="message-textarea">Message</label>
                 <span class="required">*</span>
             </div>
-            <textarea id="message-textarea" required></textarea>
+            <textarea id="message-textarea" ></textarea>
         </div>
         <div class="input-wrapper consent">
-            <input type="checkbox" id="consent-checkbox" required/>
+            <input type="checkbox" id="consent-checkbox" />
             <div>
                 <label for="consent-checkbox">I consent to being contacted by the team</label>
                 <span class="required">*</span>
@@ -72,4 +73,5 @@
     </form>
 </div>
 </body>
+<script src="script.js"></script>
 </html>
