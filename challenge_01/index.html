@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<div class="form-wrapper">
+    <h2>Contact Us</h2>
+    <form>
+        <div class="name-wrapper">
+            <div class="input-wrapper name">
+                <div class="label-wrapper">
+                    <label for="firstname-input">First Name</label>
+                    <span class="required">*</span>
+                </div>
+                <input type="text" id="firstname-input" minlength="4" maxlength="10" required/>
+            </div>
+            <div class="input-wrapper name">
+                <div class="label-wrapper">
+                    <label for="lastname-input">Last Name</label>
+                    <span class="required">*</span>
+                </div>
+                <input type="text" id="lastname-input" minlength="4" maxlength="10" required/>
+            </div>
+        </div>
+        <div class="input-wrapper">
+            <div class="label-wrapper">
+                <label for="email-input">Email Address</label>
+                <span class="required">*</span>
+            </div>
+            <input type="text" id="email-input" pattern="^[\w.+\-]+@gmail\.com$" required/>
+        </div>
+        <div class="input-wrapper">
+            <div class="label-wrapper">
+                <p>Query Type</p>
+                <span class="required">*</span>
+            </div>
+            <div class="options-wrapper">
+                <label class="option">
+                    <input type="radio" name="querytype" value="general enquiry" required/>
+                    <p>General Enquiry</p>
+                </label>
+                <label class="option">
+                    <input type="radio" name="querytype" value="support request" required/>
+                    <p>Support Request</p>
+                </label>
+            </div>
+        </div>
+        <div class="input-wrapper">
+            <div class="label-wrapper">
+                <label for="message-textarea">Message</label>
+                <span class="required">*</span>
+            </div>
+            <textarea id="message-textarea" required></textarea>
+        </div>
+        <div class="input-wrapper consent">
+            <input type="checkbox" id="consent-checkbox" required/>
+            <div>
+                <label for="consent-checkbox">I consent to being contacted by the team</label>
+                <span class="required">*</span>
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>
