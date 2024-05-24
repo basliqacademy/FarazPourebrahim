@@ -6,9 +6,9 @@
 
 body {
     --color-background: hsl(140,35%,92%);
-    --color-formBackground: hsl(0,0%,100%);
+    --color-form-background: hsl(0,0%,100%);
     --color-borders: hsl(156,3%,70%);
-    --color-submitButton: hsl(170,81%,27%);
+    --color-submit-button: hsl(170,81%,27%);
     --border-regular: 1px solid var(--color-borders);
 
     background-color: var(--color-background);
@@ -17,8 +17,8 @@ body {
 }
 
 .form-wrapper {
-    background-color: var(--color-formBackground);
-    width: 400px;
+    background-color: var(--color-form-background);
+    max-inline-size: 400px;
     margin: auto;
     padding: 20px;
     margin-top: 75px;
@@ -97,8 +97,8 @@ textarea {
 }
 
 button {
-    background-color: var(--color-submitButton);
-    color: var(--color-formBackground);
+    background-color: var(--color-submit-button);
+    color: var(--color-form-background);
     width: 100%;
     padding: 10px;
     border-radius: 5px;
