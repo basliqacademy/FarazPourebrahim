@@ -1,60 +1,63 @@
-const contactForm = document.querySelector("#contact-form");
-const firstNameInput = document.querySelector("#firstname-input");
-const lastNameInput = document.querySelector("#lastname-input");
-const emailInput = document.querySelector("#email-input");
-const radioBtnGE = document.querySelector("#radio-btn-GE");
-const radioBtnSR = document.querySelector("#radio-btn-SR");
-const messageTextarea = document.querySelector("#message-textarea");
-const consentCheckBox = document.querySelector("#consent-checkbox");
+const formElements = {}
 
-contactForm.addEventListener('submit',(event) => {
+formElements.contactForm = document.querySelector("#contact-form");
+formElements.firstNameInput = document.querySelector("#firstname-input");
+formElements.lastNameInput = document.querySelector("#lastname-input");
+formElements.emailInput = document.querySelector("#email-input");
+formElements.radioBtnGE = document.querySelector("#radio-btn-GE");
+formElements.radioBtnSR = document.querySelector("#radio-btn-SR");
+formElements.messageTextarea = document.querySelector("#message-textarea");
+formElements.consentCheckBox = document.querySelector("#consent-checkbox");
+
+formElements.contactForm.addEventListener('submit',(event) => {
 
     // disabling the default submit and refresh
     event.preventDefault();
 
+
+    let shouldReturnEarly = false;
     //checking for wrong inputs
-    if (!firstNameInput.value){
-        alert("please enter first name");
-        return;
+    if (!formElements.firstNameInput.value){
+        formErrorHandler("please enter first name");
     }
-    if (firstNameInput.value.length < 4 || firstNameInput.value.length > 10){
-        alert("first name length should be between 4 and 10 letters");
-        return;
+    else if (formElements.firstNameInput.value.length < 4 || formElements.firstNameInput.value.length > 10){
+        formErrorHandler("first name length should be between 4 and 10 letters");
     }
-    if (!lastNameInput.value){
-        alert("please enter last name");
-        return;
+    if (!formElements.lastNameInput.value){
+        formErrorHandler("please enter last name");
     }
-    if (lastNameInput.value.length < 4 || lastNameInput.value.length > 10){
-        alert("last name length should be between 4 and 10 letters");
-        return;
+    else if (formElements.lastNameInput.value.length < 4 || formElements.lastNameInput.value.length > 10){
+        formErrorHandler("last name length should be between 4 and 10 letters");
     }
-    if (!emailInput.value){
-        alert("please enter email");
-        return;
+    if (!formElements.emailInput.value){
+        formErrorHandler("please enter email");
     }
-    if (!emailInput.value.match(/^[\w.+\-]+@gmail\.com$/)){
-        alert("please enter a valid \"gmail\" address");
-        return;
+    else if (!formElements.emailInput.value.match(/^[\w.+\-]+@gmail\.com$/)){
+        formErrorHandler("please enter a valid \"gmail\" address");
     }
-    if (!radioBtnGE.checked && !radioBtnSR.checked){
-        alert("please choose one of the options");
-        return;
+    if (!formElements.radioBtnGE.checked && !formElements.radioBtnSR.checked){
+        formErrorHandler("please choose one of the options");
     }
-    if (!messageTextarea.value){
-        alert("please enter a message");
-        return;
+    if (!formElements.messageTextarea.value){
+        formErrorHandler("please enter a message");
     }
-    if (!consentCheckBox.checked){
-        alert("please check the consent checkbox to continue")
-        return;
+    if (!formElements.consentCheckBox.checked){
+        formErrorHandler("please check the consent checkbox to continue")
     }
 
+    if (shouldReturnEarly) return;
+
     console.log({
-        firstname: firstNameInput.value,
-        lastname: lastNameInput.value,
-        email: emailInput.value,
-        querytype: radioBtnGE.checked ? radioBtnGE.value : radioBtnSR.value,
-        message: messageTextarea.value,
+        firstname: formElements.firstNameInput.value,
+        lastname: formElements.lastNameInput.value,
+        email: formElements.emailInput.value,
+        querytype: formElements.radioBtnGE.checked ? formElements.radioBtnGE.value : formElements.radioBtnSR.value,
+        message: formElements.messageTextarea.value,
     });
+
+    function formErrorHandler(message){
+        alert(message);
+        console.error(message);
+        shouldReturnEarly = true;
+    }
 })
