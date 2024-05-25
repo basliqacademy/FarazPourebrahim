@@ -1,19 +1,62 @@
+body {
+    --color-background: hsl(140, 35%, 92%);
+    --color-form-background: hsl(0, 0%, 100%);
+    --color-borders: hsl(156, 3%, 70%);
+    --color-submit-button: hsl(170, 81%, 27%);
+    --border-regular: 1px solid var(--color-borders);
+    --color-error: hsl(0,100%,50%);
+    --color-success: hsl(120,100%,25%);
+    --shadow-error: 2px 2px 2px 2px hsl(0,100%,50%);
+
+
+    background-color: var(--color-background);
+    font-family: "Figtree", sans-serif;
+    font-size: 9px;
+    display: flex;
+    flex-direction: column;
+}
+
 *, *::before, *::after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-body {
-    --color-background: hsl(140,35%,92%);
-    --color-form-background: hsl(0,0%,100%);
-    --color-borders: hsl(156,3%,70%);
-    --color-submit-button: hsl(170,81%,27%);
-    --border-regular: 1px solid var(--color-borders);
+.toast-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    max-inline-size: 350px;
+    padding: 10px 20px;
+    margin: auto;
+    border-radius: 20px;
+    width: 100%;
+    margin-top: 10px;
+    justify-content: space-between;
+}
 
-    background-color: var(--color-background);
-    font-family: "Figtree", sans-serif;
-    font-size: 9px;
+.exit{
+    font-size: 35px;
+}
+
+.toast-text{
+    font-size: 15px;
+}
+
+.success {
+    background-color: var(--color-success);
+}
+
+.error {
+    background-color: var(--color-error);
+}
+
+.problem{
+    box-shadow: var(--shadow-error);
+}
+
+.hidden {
+    display: none;
 }
 
 .form-wrapper {
@@ -26,7 +69,7 @@ body {
     border-radius: 10px;
 }
 
-h2{
+h2 {
     font-size: 18px;
 }
 
@@ -53,8 +96,8 @@ h2{
     gap: 5px;
 }
 
-.label-wrapper p{
-    margin-bottom:5px;
+.label-wrapper p {
+    margin-bottom: 5px;
 }
 
 .options-wrapper {
@@ -105,32 +148,40 @@ button {
     font-size: 11px;
 }
 
+button,.exit,.consent input,.options-wrapper :hover {
+    cursor: pointer;
+}
+
 @media (orientation: portrait) {
-    .form-wrapper{
-        width: 200px;
+    .form-wrapper {
+        max-inline-size: 200px;
     }
 
-    .name-wrapper{
+    .name-wrapper {
         flex-direction: column;
     }
 
-    .name{
+    .name {
         width: 100%;
     }
 
-    .options-wrapper{
+    .options-wrapper {
         flex-direction: column;
     }
 
-    .option{
+    .option {
         width: 100%;
     }
 
-    textarea{
+    textarea {
         height: 125px;
     }
 
-    button{
+    button {
         padding: 8px;
+    }
+
+    .toast-wrapper {
+        max-inline-size: 175px;
     }
 }
