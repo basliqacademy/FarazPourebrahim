@@ -1,19 +1,64 @@
+body {
+    --color-background: hsl(140, 35%, 92%);
+    --color-form-background: hsl(0, 0%, 100%);
+    --color-borders: hsl(156, 3%, 70%);
+    --color-submit-button: hsl(170, 81%, 27%);
+    --border-regular: 1px solid var(--color-borders);
+    --color-error: hsl(0,100%,50%);
+    --color-success: hsl(120,100%,25%);
+    --shadow-error: 2px 2px 2px 2px hsl(0,100%,50%);
+
+
+    background-color: var(--color-background);
+    font-family: "Figtree", sans-serif;
+    font-size: 9px;
+    display: flex;
+    flex-direction: column;
+}
+
 *, *::before, *::after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-body {
-    --color-background: hsl(140,35%,92%);
-    --color-form-background: hsl(0,0%,100%);
-    --color-borders: hsl(156,3%,70%);
-    --color-submit-button: hsl(170,81%,27%);
-    --border-regular: 1px solid var(--color-borders);
+.toast-wrapper {
+    position: absolute;
+    inset-inline : 0;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    max-inline-size: 350px;
+    padding: 10px 20px;
+    margin: auto;
+    border-radius: 20px;
+    inline-size: 100%;
+    margin-block-start: 10px;
+    justify-content: space-between;
+}
 
-    background-color: var(--color-background);
-    font-family: "Figtree", sans-serif;
-    font-size: 9px;
+.exit{
+    font-size: 35px;
+}
+
+.toast-text{
+    font-size: 15px;
+}
+
+.success {
+    background-color: var(--color-success);
+}
+
+.error {
+    background-color: var(--color-error);
+}
+
+.problem{
+    box-shadow: var(--shadow-error);
+}
+
+.hidden {
+    display: none;
 }
 
 .form-wrapper {
@@ -21,12 +66,12 @@ body {
     max-inline-size: 400px;
     margin: auto;
     padding: 20px;
-    margin-top: 75px;
-    padding-top: 10px;
+    margin-block-start: 75px;
+    padding-block-start: 10px;
     border-radius: 10px;
 }
 
-h2{
+h2 {
     font-size: 18px;
 }
 
@@ -40,21 +85,21 @@ h2{
     display: flex;
     flex-direction: row;
     gap: 10px;
-    width: 100%;
+    inline-size: 100%;
 }
 
 .name {
-    width: 50%;
+    inline-size: 50%;
 }
 
 .label-wrapper {
-    margin-top: 10px;
+    margin-block-start: 10px;
     display: flex;
     gap: 5px;
 }
 
-.label-wrapper p{
-    margin-bottom:5px;
+.label-wrapper p {
+    margin-block-end: 5px;
 }
 
 .options-wrapper {
@@ -62,16 +107,16 @@ h2{
     flex-direction: row;
     gap: 10px;
     margin: auto;
-    width: 100%;
+    inline-size: 100%;
 }
 
 .option {
     border: var(--border-regular);
     border-radius: 5px;
-    width: 50%;
+    inline-size: 50%;
     display: flex;
     align-items: center;
-    padding-left: 10px;
+    padding-inline-start: 10px;
     gap: 5px;
 }
 
@@ -86,51 +131,59 @@ h2{
 input {
     border: var(--border-regular);
     border-radius: 5px;
-    height: 25px;
+    block-size: 25px;
 }
 
 textarea {
     border: var(--border-regular);
     border-radius: 5px;
-    height: 50px;
+    block-size: 50px;
     resize: none;
 }
 
 button {
     background-color: var(--color-submit-button);
     color: var(--color-form-background);
-    width: 100%;
+    inline-size: 100%;
     padding: 10px;
     border-radius: 5px;
     font-size: 11px;
 }
 
+button,.exit,.consent input,.options-wrapper :hover {
+    cursor: pointer;
+}
+
 @media (orientation: portrait) {
-    .form-wrapper{
-        width: 200px;
+    .form-wrapper {
+        max-inline-size: 200px;
     }
 
-    .name-wrapper{
+    .name-wrapper {
         flex-direction: column;
     }
 
-    .name{
-        width: 100%;
+    .name {
+        inline-size: 100%;
     }
 
-    .options-wrapper{
+    .options-wrapper {
         flex-direction: column;
     }
 
-    .option{
-        width: 100%;
+    .option {
+        inline-size: 100%;
     }
 
-    textarea{
-        height: 125px;
+    textarea {
+        block-size: 125px;
     }
 
-    button{
+    button {
         padding: 8px;
+    }
+
+    .toast-wrapper {
+        max-inline-size: 175px;
     }
 }

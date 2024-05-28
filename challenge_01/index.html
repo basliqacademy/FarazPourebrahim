@@ -14,6 +14,11 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+<div  id="toast" class="toast-wrapper hidden">
+        <span id="toast-exit" class="exit">×</span>
+        <p id="toast-text" class="toast-text">Lorem ipsum whatever</p>
+</div>
+
 <div class="form-wrapper">
     <h2>Contact Us</h2>
     <form id="contact-form">
@@ -38,7 +43,7 @@
                 <label for="email-input">Email Address</label>
                 <span class="required">*</span>
             </div>
-            <input type="text" id="email-input" />
+            <input type="text" id="email-input"/>
         </div>
         <div class="input-wrapper">
             <div class="label-wrapper">
@@ -47,11 +52,11 @@
             </div>
             <div class="options-wrapper">
                 <label class="option">
-                    <input id="radio-btn-GE" type="radio" name="querytype" value="general enquiry" />
+                    <input id="radio-btn-GE" type="radio" name="querytype" value="general enquiry"/>
                     <p>General Enquiry</p>
                 </label>
                 <label class="option">
-                    <input id="radio-btn-SR" type="radio" name="querytype" value="support request" />
+                    <input id="radio-btn-SR" type="radio" name="querytype" value="support request"/>
                     <p>Support Request</p>
                 </label>
             </div>
@@ -61,10 +66,10 @@
                 <label for="message-textarea">Message</label>
                 <span class="required">*</span>
             </div>
-            <textarea id="message-textarea" ></textarea>
+            <textarea id="message-textarea"></textarea>
         </div>
         <div class="input-wrapper consent">
-            <input type="checkbox" id="consent-checkbox" />
+            <input type="checkbox" id="consent-checkbox"/>
             <div>
                 <label for="consent-checkbox">I consent to being contacted by the team</label>
                 <span class="required">*</span>
