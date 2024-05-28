@@ -1,4 +1,5 @@
-const formElements = {}
+const formElements = {};
+const toastElements = {};
 
 formElements.contactForm = document.querySelector("#contact-form");
 formElements.firstNameInput = document.querySelector("#firstname-input");
@@ -9,57 +10,50 @@ formElements.radioBtnSR = document.querySelector("#radio-btn-SR");
 formElements.messageTextarea = document.querySelector("#message-textarea");
 formElements.consentCheckBox = document.querySelector("#consent-checkbox");
 
-const toast = document.querySelector("#toast");
-const toastText = document.querySelector("#toast-text");
-const toastExit = document.querySelector("#toast-exit");
 
-toastExit.addEventListener('click',() => {
-    toast.classList.add("hidden");
+toastElements.toast = document.querySelector("#toast");
+toastElements.toastText = document.querySelector("#toast-text");
+toastElements.toastExit = document.querySelector("#toast-exit");
+
+toastElements.toastExit.addEventListener('click', () => {
+    toastElements.toast.classList.add("hidden");
 })
 
-formElements.contactForm.addEventListener('submit',(event) => {
+formElements.contactForm.addEventListener('submit', (event) => {
 
     // disabling the default submit and refresh
     event.preventDefault();
 
 
+    let shouldReturnEarly = false;
+
     //checking for wrong inputs
-    if (!formElements.firstNameInput.value){
-        formErrorHandler("please enter first name",formElements.firstNameInput);
-        return;
+    if (!formElements.consentCheckBox.checked) {
+        formErrorHandler("please check the consent checkbox to continue",formElements.consentCheckBox)
     }
-    else if (formElements.firstNameInput.value.length < 4 || formElements.firstNameInput.value.length > 10){
-        formErrorHandler("first name length should be between 4 and 10 letters",formElements.firstNameInput);
-        return;
-    }
-    if (!formElements.lastNameInput.value){
-        formErrorHandler("please enter last name",formElements.lastNameInput);
-        return;
-    }
-    else if (formElements.lastNameInput.value.length < 4 || formElements.lastNameInput.value.length > 10){
-        formErrorHandler("last name length should be between 4 and 10 letters",formElements.lastNameInput);
-        return;
-    }
-    if (!formElements.emailInput.value){
-        formErrorHandler("please enter email",formElements.emailInput);
-        return;
-    }
-    else if (!formElements.emailInput.value.match(/^[\w.+\-]+@gmail\.com$/)){
-        formErrorHandler("please enter a valid \"gmail\" address",formElements.emailInput);
-        return;
-    }
-    if (!formElements.radioBtnGE.checked && !formElements.radioBtnSR.checked){
-        formErrorHandler("please choose one of the options",formElements.radioBtnGE);
-        return;
-    }
-    if (!formElements.messageTextarea.value){
+    if (!formElements.messageTextarea.value) {
         formErrorHandler("please enter a message",formElements.messageTextarea);
-        return;
     }
-    if (!formElements.consentCheckBox.checked){
-        formErrorHandler("please check the consent checkbox to continue",formElements.consentCheckBox);
-        return;
+    if (!formElements.radioBtnGE.checked && !formElements.radioBtnSR.checked) {
+        formErrorHandler("please choose one of the options",formElements.radioBtnGE);
     }
+    if (!formElements.emailInput.value) {
+        formErrorHandler("please enter email",formElements.emailInput);
+    } else if (!formElements.emailInput.value.match(/^[\w.+\-]+@gmail\.com$/)) {
+        formErrorHandler("please enter a valid \"gmail\" address",formElements.emailInput);
+    }
+    if (!formElements.lastNameInput.value) {
+        formErrorHandler("please enter last name",formElements.lastNameInput);
+    } else if (formElements.lastNameInput.value.length < 4 || formElements.lastNameInput.value.length > 10) {
+        formErrorHandler("last name length should be between 4 and 10 letters",formElements.lastNameInput);
+    }
+    if (!formElements.firstNameInput.value) {
+        formErrorHandler("please enter first name",formElements.firstNameInput);
+    } else if (formElements.firstNameInput.value.length < 4 || formElements.firstNameInput.value.length > 10) {
+        formErrorHandler("first name length should be between 4 and 10 letters",formElements.firstNameInput);
+    }
+
+    if (shouldReturnEarly) return;
 
     // in case of success
     console.log({
@@ -70,37 +64,44 @@ formElements.contactForm.addEventListener('submit',(event) => {
         message: formElements.messageTextarea.value,
     });
     cleanup();
-    showMessage("Form submitted successfully","success");
-
+    showMessage("Form submitted successfully", "success");
 
 
     // functions
-    function showMessage(text,status){
-        toastText.innerHTML = text;
-        toast.classList.add(status);
-        toast.classList.remove("hidden");
-        setTimeout(()=>{
-            toast.classList.remove(status);
-            toast.classList.add("hidden");
+    function showMessage(text, status) {
+        toastElements.toastText.innerHTML = text;
+        toastElements.toast.classList.add(status);
+        toastElements.toast.classList.remove("hidden");
+        setTimeout(() => {
+            toastElements.toast.classList.remove(status);
+            toastElements.toast.classList.add("hidden");
         }, 3000);
     }
 
-    function formErrorHandler(message,errorNode){
+    function formErrorHandler(message, errorNode) {
+        shouldReturnEarly = true;
         errorNode.focus();
-        if (errorNode.type === "radio"){
+        if (errorNode.type === "radio") {
             errorNode = errorNode.parentNode;
         }
-        if (errorNode.type === "checkbox"){
+        if (errorNode.type === "checkbox") {
             errorNode = errorNode.parentNode;
         }
         errorNode.classList.add("problem");
-        showMessage(message,"error")
+        showMessage(message, "error")
         console.error(message);
-        errorNode.onchange = () => {errorNode.classList.remove("problem");}
+        errorNode.oninput = () => {
+            errorNode.classList.remove("problem");
+        }
     }
 
-    function cleanup(){
-        formElements.firstNameInput.value = formElements.lastNameInput.value = formElements.emailInput.value =  formElements.messageTextarea.value = null;
-        formElements.radioBtnGE.checked = formElements.radioBtnSR.checked = formElements.consentCheckBox.checked = false;
+    function cleanup() {
+        formElements.firstNameInput.value = null;
+        formElements.lastNameInput.value = null;
+        formElements.emailInput.value = null;
+        formElements.messageTextarea.value = null;
+        formElements.radioBtnGE.checked = false;
+        formElements.radioBtnSR.checked = false;
+        formElements.consentCheckBox.checked = false;
     }
 })

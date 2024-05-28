@@ -23,6 +23,8 @@ body {
 }
 
 .toast-wrapper {
+    position: absolute;
+    inset-inline : 0;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -30,8 +32,8 @@ body {
     padding: 10px 20px;
     margin: auto;
     border-radius: 20px;
-    width: 100%;
-    margin-top: 10px;
+    inline-size: 100%;
+    margin-block-start: 10px;
     justify-content: space-between;
 }
 
@@ -64,8 +66,8 @@ body {
     max-inline-size: 400px;
     margin: auto;
     padding: 20px;
-    margin-top: 75px;
-    padding-top: 10px;
+    margin-block-start: 75px;
+    padding-block-start: 10px;
     border-radius: 10px;
 }
 
@@ -83,21 +85,21 @@ h2 {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    width: 100%;
+    inline-size: 100%;
 }
 
 .name {
-    width: 50%;
+    inline-size: 50%;
 }
 
 .label-wrapper {
-    margin-top: 10px;
+    margin-block-start: 10px;
     display: flex;
     gap: 5px;
 }
 
 .label-wrapper p {
-    margin-bottom: 5px;
+    margin-block-end: 5px;
 }
 
 .options-wrapper {
@@ -105,16 +107,16 @@ h2 {
     flex-direction: row;
     gap: 10px;
     margin: auto;
-    width: 100%;
+    inline-size: 100%;
 }
 
 .option {
     border: var(--border-regular);
     border-radius: 5px;
-    width: 50%;
+    inline-size: 50%;
     display: flex;
     align-items: center;
-    padding-left: 10px;
+    padding-inline-start: 10px;
     gap: 5px;
 }
 
@@ -129,20 +131,20 @@ h2 {
 input {
     border: var(--border-regular);
     border-radius: 5px;
-    height: 25px;
+    block-size: 25px;
 }
 
 textarea {
     border: var(--border-regular);
     border-radius: 5px;
-    height: 50px;
+    block-size: 50px;
     resize: none;
 }
 
 button {
     background-color: var(--color-submit-button);
     color: var(--color-form-background);
-    width: 100%;
+    inline-size: 100%;
     padding: 10px;
     border-radius: 5px;
     font-size: 11px;
@@ -162,7 +164,7 @@ button,.exit,.consent input,.options-wrapper :hover {
     }
 
     .name {
-        width: 100%;
+        inline-size: 100%;
     }
 
     .options-wrapper {
@@ -170,11 +172,11 @@ button,.exit,.consent input,.options-wrapper :hover {
     }
 
     .option {
-        width: 100%;
+        inline-size: 100%;
     }
 
     textarea {
-        height: 125px;
+        block-size: 125px;
     }
 
     button {
