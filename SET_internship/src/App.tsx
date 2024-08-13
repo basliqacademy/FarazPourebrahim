@@ -7,7 +7,7 @@ function App() {
     React.useEffect(() => {
         const con: Connect = new Connect(BASE_URL);
         async function func() {
-            const data = await con.post("api/v1/auth/user/validate",{mobile: "09141035058"});
+            const data = await con.post("api/v1/auth/user/validate",{mobile: "09396543305"});
         }
         func();
     }, []);
