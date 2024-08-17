@@ -5,7 +5,7 @@ import SignUpForm from "./SignUpForm";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
-const Signup = () => {
+const SignUp = () => {
     return (
         <section className={`d-flex align-items-center justify-content-center ${styles['wrapper']} light`}>
             <div className={styles["wrapper-overlay"]} />
@@ -37,4 +37,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default SignUp;

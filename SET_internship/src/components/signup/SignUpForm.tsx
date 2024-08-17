@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import styles from "./SignUpForm.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@coreui/coreui/dist/css/coreui.min.css';
-import connect from "../../api/connect";
 import Connect from "../../api/connect";
 import BASE_URL from "../../api/endpoints";
 

@@ -4,7 +4,7 @@ import Connect from "./api/connect";
 import BASE_URL from "./api/endpoints";
 import React from "react";
 import PhoneNumberCheck from './components/login/PhoneNumberCheck.js';
-import Signup from './components/signup/Signup';
+import Signup from './components/signup/SignUp';
 
 function App() {
 
