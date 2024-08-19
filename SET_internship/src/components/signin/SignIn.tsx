@@ -1,12 +1,13 @@
-import styles from "./SignUpForm.module.css";
+import styles from "./SigninForm.module.css";
 import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
-import SignUpForm from "./SignUpForm";
+import SignInForm from "./SignInForm";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PERSIAN from "../../utils/persian/persian";
 
 
-const SignUp = () => {
+
+const SignIn = () => {
     return (
         <section className={`d-flex align-items-center justify-content-center ${styles['wrapper']} light`}>
             <div className={styles["wrapper-overlay"]} />
@@ -25,8 +26,8 @@ const SignUp = () => {
                                 </Col>
                                 <Col xs={12} lg={6} className="mt-4 mt-lg-0">
                                     <div className="d-flex flex-column justify-content-center align-items-center text-center h-100 p-2">
-                                        <h2 className={styles['wrapper-heading']}>{PERSIAN.sign_in_or_up}</h2>
-                                        <SignUpForm />
+                                        <h2 className={styles['wrapper-heading']}>{PERSIAN.enter_with_password}</h2>
+                                        <SignInForm />
                                     </div>
                                 </Col>
                             </Row>
@@ -38,4 +39,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default SignIn;

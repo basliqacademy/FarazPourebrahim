@@ -1,0 +1,87 @@
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+.welcome {
+    font-size: 1.2rem;
+    margin-left: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.profileImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 250px;
+}
+
+.logo {
+    height: 80px;
+    margin-right: 10px;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    height: calc(100vh - 80px);
+    justify-content: space-between;
+}
+
+.sidebarItem {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.sidebarItem:hover {
+    background-color: #e0e0e0;
+}
+
+.active {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    margin-right: 200px;
+    margin-top: 80px;
+    overflow-y: auto;
+    background-image: url('../public/dashboard-background.jpg');
+}

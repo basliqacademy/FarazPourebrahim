@@ -1,10 +1,9 @@
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Connect from "./api/connect";
-import BASE_URL from "./api/endpoints";
 import React from "react";
-import PhoneNumberCheck from './components/login/PhoneNumberCheck.js';
-import Signup from './components/signup/SignUp';
+import SignIn from "./components/signin/SignIn";
+import SignUp from "./components/signup/SignUp";
+import Dashboard from './components/dashboard/Dashboard'
 
 function App() {
 
@@ -14,8 +13,9 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Navigate to="/sign_up" />} />
-                <Route path="/sign_up" element={<Signup />} />
-
+                <Route path="/sign_up" element={<SignUp />} />
+                <Route path="/sign_in" element={<SignIn />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </Router>
 

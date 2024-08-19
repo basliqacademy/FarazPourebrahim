@@ -3,7 +3,6 @@ html, body {
     padding: 0;
     height: 100%;
     overflow: hidden;
-
 }
 
 .wrapper {
@@ -12,7 +11,7 @@ html, body {
     align-items: center;
     justify-content: center;
 
-    --link-hover-color: hsl(215, 98%, 52%);
+    --link-hover-color: rgb(13, 110, 253);
     --form-bg-color: hsla(0,0%,100%,0.6);
     --input-border-color: hsl(0, 0%, 0%);
     --text-color: hsl(0,0%,0%);
@@ -75,10 +74,14 @@ html, body {
 .form-group {
     position: relative;
     padding-block: 1rem;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 20px;
 }
 
 .custom-input {
-    width: 40%;
+    width: 50%;
     min-height: 40px;
     line-height: 40px;
     border: none;
@@ -95,10 +98,7 @@ html, body {
 .custom-input:focus {
     outline: none;
     border-bottom: 1px solid var(--input-border-color);
-    width: 60%;
     box-shadow: none;
-    transition: width;
-    transition-duration: 0.5s;
 }
 
 .btn-submit {
@@ -149,4 +149,13 @@ html, body {
 /*    transition: background-color 5000s ease-in-out 0s;*/
 /*}*/
 
+.input-label {
+    font-size: 14px;
+    padding-block-start: 10px;
+    width: 6rem;
+}
 
+.password-toggle {
+    position: relative;
+    cursor: pointer;
+}

@@ -28,7 +28,6 @@ class Connect {
             const result: ApiResponse = {
                 success: response.ok,
             };
-            if (response.ok) {
                 try {
                     const contentType = response.headers.get('Content-Type');
                     if (contentType && contentType.includes('application/json')) {
@@ -43,10 +42,7 @@ class Connect {
                     result.error = 'Failed to parse response';
                     result.errorType = ApiErrorType.PARSE;
                 }
-            } else {
-                result.error = response.statusText || 'Server error';
-                result.errorType = ApiErrorType.SERVER;
-            }
+            
 
 
             return result;
