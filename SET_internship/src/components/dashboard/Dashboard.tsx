@@ -6,7 +6,7 @@ import styles from './Dashboard.module.css';
 // import { TimerProvider } from './TimerContext';
 import { useNavigate } from 'react-router-dom';
 import Connect from "../../api/connect";
-import BASE_URL from "../../api/endpoints";
+import {BASE_URL} from "../../api/endpoints";
 
 
 const Dashboard = () => {
@@ -15,10 +15,10 @@ const Dashboard = () => {
 
     useEffect(() => {
 
-            const connect : Connect = new Connect(BASE_URL);
+            Connect.configure(BASE_URL);
             async function handleConnection() {
                 const token = localStorage.getItem('authentication-token');
-                const data = await connect.get('api/v1/authenticated/me',{headers: {
+                const data = await Connect.get('api/v1/authenticated/me',{headers: {
                         'Authorization': `Bearer ${token}`,
                     },});
                 console.log(data);

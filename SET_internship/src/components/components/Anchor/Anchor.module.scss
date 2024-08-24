@@ -1,0 +1,40 @@
+a {
+  padding-inline-end: 0.5rem;
+  cursor: pointer;
+
+
+  &.visible-underline {
+    text-decoration: underline;
+  }
+
+  &.disabled-underline {
+    text-decoration: none;
+  }
+
+  &.white {
+    color: hsl(0, 0%, 100%);
+  }
+
+  &.black {
+    color: hsl(0, 0%, 0%);
+  }
+
+  &.brown {
+    color: hsl(0, 16%, 16%);
+  }
+
+  &:hover {
+    &.underline {
+      text-decoration: underline;
+    }
+
+    &.blue-underline {
+      text-decoration: underline;
+      color: hsl(215, 98%, 52%);
+    }
+
+    &.none {
+      text-decoration: none;
+    }
+  }
+}

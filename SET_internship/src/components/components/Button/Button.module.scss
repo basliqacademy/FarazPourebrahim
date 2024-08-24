@@ -1,0 +1,52 @@
+button {
+  border-radius: 10px;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+
+  //----------------- colors -----------------
+  &.grey {
+    background-color: hsla(0, 0%, 20%, 1);
+  }
+
+  &.black{
+    background-color: hsla(0,0%,0%, 0.8);
+  }
+
+  &.blue{
+    background-color: hsla(232, 70%, 44%, 0.8);
+  }
+
+  //----------------- sizes -----------------
+  &.sm{
+    padding: 6px 20px;
+  }
+
+  &.md{
+    padding: 8px 30px;
+  }
+
+  &.lg {
+    padding: 12px 40px;
+  }
+
+  //----------------- text colors -----------------
+  &.white-text {
+    color: hsl(0, 0%, 100%);
+  }
+
+  &.black-text {
+    color: hsl(0, 0%, 0%);
+  }
+
+  &.brown-text {
+    color: hsl(0, 16%, 16%);
+  }
+
+  //----------------- hover styles -----------------
+
+  &:hover {
+    color: hsl(0, 16.05%, 15.88%);
+    background-color:  hsla(0, 0%, 20%, 0.2);
+  }
+}

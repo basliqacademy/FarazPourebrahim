@@ -3,7 +3,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
 import SignUpForm from "./SignUpForm";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PERSIAN from "../../utils/persian/persian";
+import PERSIAN from "../../utils/languages/persian/persian";
 
 
 const SignUp = () => {
@@ -18,7 +18,7 @@ const SignUp = () => {
                                 <Col xs={12} lg={6}>
                                     <div className="d-flex align-items-center justify-content-center h-100">
                                         <img
-                                            src="/SignUpCard.png"
+                                            src="SignUpCard.webp"
                                             alt="Sign Up Card"
                                         />
                                     </div>

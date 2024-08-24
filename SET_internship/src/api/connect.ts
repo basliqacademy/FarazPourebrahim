@@ -1,114 +1,96 @@
 enum ApiErrorType {
     NETWORK = 'network',
     CORS = 'cors',
-    TIMEOUT = 'timeout',
-    SERVER = 'server',
-    PARSE = 'parse',
+    TIMEOUT = 408,
+    SERVER = 500,
     UNKNOWN = 'unknown',
 }
 
-type ApiResponse = {
-    success: boolean;
-    data?: any;
-    error?: string;
-    errorType?: ApiErrorType;
+type SuccessResponse<T> = {
+    success: true;
+    data: T;
 }
 
-class Connect {
-    private baseURL: string;
+type ErrorResponse = {
+    success: false;
+    error: string;
+    errorType: ApiErrorType;
+}
 
-    constructor(baseURL: string) {
+export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
+
+class Connect {
+    private static baseURL: string;
+
+    public static configure(baseURL: string) {
         this.baseURL = baseURL;
     }
 
-    private async request(endpoint: string, options?: RequestInit): Promise<ApiResponse> {
+    private static async request<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
         try {
             const response = await fetch(`${this.baseURL}/${endpoint}`, options);
+            const data = await response.json();
 
-            const result: ApiResponse = {
-                success: response.ok,
-            };
-                try {
-                    const contentType = response.headers.get('Content-Type');
-                    if (contentType && contentType.includes('application/json')) {
-                        result.data = await response.json();
-                    } else {
-                        result.success = false;
-                        result.error = 'Expected JSON response';
-                        result.errorType = ApiErrorType.PARSE;
-                    }
-                } catch {
-                    result.success = false;
-                    result.error = 'Failed to parse response';
-                    result.errorType = ApiErrorType.PARSE;
-                }
-            
-
-
-            return result;
-        } catch (error: any) {
-            const result: ApiResponse = { success: false };
-
-            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
-                result.error = 'Network connection lost';
-                result.errorType = ApiErrorType.NETWORK;
-            } else if (error.message.includes('CORS')) {
-                result.error = 'CORS policy issue';
-                result.errorType = ApiErrorType.CORS;
-            } else if (error.message.includes('timeout')) {
-                result.error = 'Request timed out';
-                result.errorType = ApiErrorType.TIMEOUT;
+            if (response.ok) {
+                return { success: true, data };
             } else {
-                result.error = error.message || 'Unknown error';
-                result.errorType = ApiErrorType.UNKNOWN;
+                return {
+                    success: false,
+                    error: data?.message || 'Unknown error',
+                    errorType: ApiErrorType.SERVER,
+                };
+            }
+        } catch (error: any) {
+            let errorType: ApiErrorType = ApiErrorType.UNKNOWN;
+            let errorMessage = error.message || 'Unknown error';
+
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                errorMessage = 'Network connection lost';
+                errorType = ApiErrorType.NETWORK;
+            } else if (error.message.includes('CORS')) {
+                errorMessage = 'CORS policy issue';
+                errorType = ApiErrorType.CORS;
+            } else if (error.message.includes('timeout')) {
+                errorMessage = 'Request timed out';
+                errorType = ApiErrorType.TIMEOUT;
             }
 
-            return result;
+            return { success: false, error: errorMessage, errorType };
         }
     }
 
-    public get(endpoint: string, options?: RequestInit): Promise<any> {
-        return this.request(
-            endpoint,
-            {
-                method: 'GET',
-                ...options
-            }
-        );
+    public static get<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
+        return this.request<T>(endpoint, {
+            method: 'GET',
+            ...options,
+        });
     }
 
-    public post(endpoint: string, body: any, options?: RequestInit): Promise<any> {
-        return this.request(
-            endpoint,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-                ...options
-            }
-        );
+    public static post<T>(endpoint: string, body: any, options?: RequestInit): Promise<ApiResponse<T>> {
+        return this.request<T>(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+            ...options,
+        });
     }
 
-    public put(endpoint: string, body: any, options?: RequestInit): Promise<any> {
-        return this.request(
-            endpoint,
-            {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-                ...options
-            }
-        );
+    public static put<T>(endpoint: string, body: any, options?: RequestInit): Promise<ApiResponse<T>> {
+        return this.request<T>(endpoint, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+            ...options,
+        });
     }
 
-    public delete(endpoint: string, options: RequestInit): Promise<any> {
-        return this.request(
-            endpoint,
-            {
-                method: 'DELETE',
-                ...options
-            }
-        );
+    public static delete<T>(endpoint: string, body: any, options?: RequestInit): Promise<ApiResponse<T>> {
+        return this.request<T>(endpoint, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+            ...options,
+        });
     }
 }
 

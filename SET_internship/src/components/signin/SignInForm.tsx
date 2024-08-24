@@ -1,22 +1,27 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import styles from "./SigninForm.module.css";
+import { Form, Spinner } from "react-bootstrap";
+import styles from "./SignInForm.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import Connect from "../../api/connect";
-import BASE_URL from "../../api/endpoints";
+import { BASE_URL } from "../../api/endpoints";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import toast from "react-simple-toasts";
 import toastDetails from "../../utils/toast/toastDetails";
-import PERSIAN from "../../utils/persian/persian";
+import PERSIAN from "../../utils/languages/persian/persian";
+import Button from "../components/Button/Button";
+import Input from "../components/Input/Input";
+import Anchor from "../components/Anchor/Anchor";
+import API from "../../api/api";
+import {emailRegex, persianLetterRegex, phoneRegex} from "../../utils/regex/regex";
 
 const SignInForm = () => {
-
     const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
@@ -25,20 +30,31 @@ const SignInForm = () => {
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
+
         if (id === "identifier") {
             setIdentifier(value);
-        } else if (id === "password")
-        {
+        } else if (id === "password") {
+            if (persianLetterRegex.test(value)) {
+                toast(PERSIAN.no_persian_in_password, toastDetails.WARNING_CONFIG);
+                return;
+            }
             setPassword(value);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         function requestBodyBuilder(identifier) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const phoneRegex = /^(0\d{10})$/;
+
+            if (/^\d+$/.test(identifier)) {
+                if (identifier.length !== 11 || !identifier.startsWith("09")) {
+                    toast(PERSIAN.invalid_phone_number, toastDetails.ERROR_CONFIG);
+                    setLoading(false);
+                    return;
+                }
+            }
 
             let requestBody = {};
 
@@ -56,11 +72,11 @@ const SignInForm = () => {
             return requestBody;
         }
 
-        const connect : Connect = new Connect(BASE_URL);
+        Connect.configure(BASE_URL);
 
         async function handleConnection() {
             let requestBody = requestBodyBuilder(identifier);
-            const data = await connect.post('api/v1/auth/user/login-with-password',requestBody);
+            const data = await API.LogInWithPassword(requestBody);
             console.log(data);
             if (data.success) {
                 localStorage.setItem('authentication-token', data.data.data.token);
@@ -68,26 +84,27 @@ const SignInForm = () => {
                 toast(data.data.message, toastDetails.SUCCESS_CONFIG);
             }
             else {
-                toast(data?.data?.message || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
+                toast(data.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
             }
+            setLoading(false);
         }
 
         handleConnection();
-
     };
 
     return (
         <>
             <div>
-
                 <Form className={styles["custom-form"]} onSubmit={handleSubmit}>
-
                     <p className={styles['description-text']}>{PERSIAN.enter_number_username_email}</p>
                     <Form.Group className={styles["form-group"]}>
                         <label className={styles["input-label"]} htmlFor={"identifier"}>{PERSIAN.identifier}</label>
-                        <input
+                        <Input
+                            borderColor={"black-border"}
+                            borderType={"line"}
+                            transparent={"transparent"}
+                            openingAnimation={"no-animation"}
                             type="text"
-                            className={styles["custom-input"]}
                             id="identifier"
                             value={identifier}
                             onChange={handleInputChange}
@@ -96,10 +113,12 @@ const SignInForm = () => {
 
                     <Form.Group className={styles["form-group"]}>
                         <label className={styles["input-label"]} htmlFor={"password"}>{PERSIAN.password}</label>
-
-                        <input
+                        <Input
+                            borderColor={"black-border"}
+                            borderType={"line"}
+                            transparent={"transparent"}
+                            openingAnimation={"no-animation"}
                             type={passwordVisible ? "text" : "password"}
-                            className={styles["custom-input"]}
                             id="password"
                             value={password}
                             onChange={handleInputChange}
@@ -111,14 +130,15 @@ const SignInForm = () => {
                         />
                     </Form.Group>
 
-                    <Button type="submit" className={styles["btn-submit"]}>
-                        ورود
+                    <Button type="submit" size={"lg"} color={"grey"} textColor={"white-text"} disabled={loading}>
+                        {loading ? <Spinner animation="border" size="sm" /> : PERSIAN.enter}
                     </Button>
 
-                        <p className={styles["redirect-text"]}>
-                            <a onClick={() => navigate("/sign_up")} className={styles["link-spacing"]}>{PERSIAN.enter_with_otp}</a>
-                        </p>
-
+                    <p className={styles["redirect-text"]}>
+                        <Anchor color={"black"} hover={"blue-underline"} underline={"disabled-underline"} to={'/sign_up'}>
+                            {PERSIAN.enter_with_otp}
+                        </Anchor>
+                    </p>
                 </Form>
             </div>
         </>

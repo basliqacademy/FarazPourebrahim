@@ -1,26 +1,10 @@
 import './App.css'
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import React from "react";
-import SignIn from "./components/signin/SignIn";
-import SignUp from "./components/signup/SignUp";
-import Dashboard from './components/dashboard/Dashboard'
+import { RouterProvider } from 'react-router-dom';
+import router from "./utils/routes/routes";
 
 function App() {
-
-
-  return (
-    <>
-        <Router>
-            <Routes>
-                <Route path="/" element={<Navigate to="/sign_up" />} />
-                <Route path="/sign_up" element={<SignUp />} />
-                <Route path="/sign_in" element={<SignIn />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-        </Router>
-
-    </>
-  )
+    return <RouterProvider router={router} />;
 }
 
 export default App

@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import {  Form, Spinner } from "react-bootstrap";
 import styles from "./SignUpForm.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import Connect from "../../api/connect";
-import BASE_URL from "../../api/endpoints";
-import {useNavigate} from 'react-router-dom';
-import toast, { toastConfig } from 'react-simple-toasts';
+import { BASE_URL } from "../../api/endpoints";
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-simple-toasts';
 import 'react-simple-toasts/dist/theme/dark.css';
 import toastDetails from "../../utils/toast/toastDetails";
-import PERSIAN from "../../utils/persian/persian";
+import PERSIAN from "../../utils/languages/persian/persian";
+import Button from "../components/Button/Button";
+import Input from "../components/Input/Input";
+import Anchor from "../components/Anchor/Anchor";
+import API from "../../api/api";
+import {otpRegex, phoneRegex} from "../../utils/regex/regex";
 
 const SignUpForm = () => {
     enum Phases {
@@ -19,58 +24,69 @@ const SignUpForm = () => {
     const [phase, setPhase] = React.useState(Phases.PHONE_NUMBER);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [otpCode, setOtpCode] = React.useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-         if (id === "p-number") {
-             const numericValue = value.replace(/[^0-9]/g, '');
-             setPhoneNumber(numericValue);
-         } else if (id === "otp-code")
-         {
-             const numericValue = value.replace(/[^0-9]/g, '');
-             setOtpCode(numericValue);
-         }
+        if (id === "p-number") {
+            const numericValue = value.replace(/[^0-9]/g, '');
+            setPhoneNumber(numericValue);
+        } else if (id === "otp-code") {
+            const numericValue = value.replace(/[^0-9]/g, '');
+            setOtpCode(numericValue);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
-        const connect : Connect = new Connect(BASE_URL);
+        if (phase === Phases.PHONE_NUMBER) {
+            if (!phoneRegex.test(phoneNumber)) {
+                toast(PERSIAN.invalid_phone_number, toastDetails.WARNING_CONFIG);
+                setLoading(false);
+                return;
+            }
+        } else if (phase === Phases.OTP) {
+
+            if (!otpRegex.test(otpCode)) {
+                toast(PERSIAN.invalid_otp, toastDetails.WARNING_CONFIG);
+                setLoading(false);
+                return;
+            }
+        }
+
+        Connect.configure(BASE_URL);
 
         async function handleConnection() {
-            if (phase === Phases.PHONE_NUMBER) {
+            try {
+                if (phase === Phases.PHONE_NUMBER) {
+                    const validationData = await API.validateNumber(phoneNumber);
+                    console.log(validationData);
 
-                const validationData = await connect.post("api/v1/auth/user/validate",{'mobile': phoneNumber});
-                console.log(validationData);
-
-                if (validationData.success){
-
-                    const data = await connect.post("api/v1/auth/user/request-otp", {'mobile': phoneNumber});
+                    const data = await API.requestOTP(phoneNumber);
                     console.log(data);
 
                     if (data.success) {
                         setPhase(Phases.OTP);
                         toast(data.data.message, toastDetails.SUCCESS_CONFIG);
+                    } else {
+                        toast(data.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
                     }
-                    else {
-                        toast(data?.data?.message || PERSIAN.action_failed, toastDetails.ERROR_CONFIG );
+
+                } else if (phase === Phases.OTP) {
+                    const data = await API.register(phoneNumber,otpCode);
+                    if (data.success) {
+                        localStorage.setItem('authentication-token', data.data.data.token);
+                        navigate('/dashboard');
+                        toast(data.data.message, toastDetails.SUCCESS_CONFIG);
+                    } else {
+                        toast(data.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
                     }
                 }
-                else {
-                    toast(validationData?.data?.message || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
-                }
-            }
-            else if (phase === Phases.OTP) {
-                const data = await connect.post("api/v1/auth/user/register",{'mobile': phoneNumber, 'otp': otpCode});
-                if (data.success) {
-                    localStorage.setItem('authentication-token', data.data.data.token);
-                    navigate('/dashboard');
-                    toast(data.data.message, toastDetails.SUCCESS_CONFIG);
-                }
-                else {
-                    toast(data?.data?.message || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
-                }
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -79,62 +95,66 @@ const SignUpForm = () => {
 
     return (
         <>
-            {phase === Phases.PHONE_NUMBER &&
-            (<div>
-                <p className={styles['instruction-text']}>{PERSIAN.please_enter_number}</p>
-                <p className={styles['description-text']}>{PERSIAN.will_send_otp}</p>
-                <Form className={styles["custom-form"]} onSubmit={handleSubmit}>
+            {phase === Phases.PHONE_NUMBER && (
+                <div>
+                    <p className={styles['instruction-text']}>{PERSIAN.please_enter_number}</p>
+                    <p className={styles['description-text']}>{PERSIAN.will_send_otp}</p>
+                    <Form className={styles["custom-form"]} onSubmit={handleSubmit}>
+                        <Form.Group className={styles["form-group"]}>
+                            <Input
+                                borderType={"line"}
+                                openingAnimation={"regular-animation"}
+                                borderColor={"black-border"}
+                                transparent={"transparent"}
+                                type="text"
+                                id="p-number"
+                                value={phoneNumber}
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
 
-
-                    <Form.Group className={styles["form-group"]}>
-                        <input
-                            type="text"
-                            className={styles["custom-input"]}
-                            id="p-number"
-                            value={phoneNumber}
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-
-                    <Button type="submit" className={styles["btn-submit"]}>
-                        {PERSIAN.sign_in_or_up}
-                    </Button>
+                        <Button type="submit" size={'lg'} color={'grey'} textColor={"white-text"} disabled={loading}>
+                            {loading ? <Spinner animation="border" size="sm" /> : PERSIAN.sign_in_or_up}
+                        </Button>
 
                         <p className={styles["redirect-text"]}>
                             {PERSIAN.have_account_already}
-                            <a onClick={() => {navigate('/sign_in')}} className={styles["link-spacing"]}>{PERSIAN.enter}</a>
+                            <Anchor color={"black"} underline={"disabled-underline"} hover={"blue-underline"} to={'/sign_in'}>
+                                {PERSIAN.enter_with_password}
+                            </Anchor>
                         </p>
 
-                </Form>
-            </div>
+                    </Form>
+                </div>
             )}
-            {
-                phase === Phases.OTP && (
-                    <div>
-                        <p className={styles['instruction-text']}>{PERSIAN.confirmmation_code}</p>
-                        <p className={styles['description-text']}>کد تایید ارسال شده به شماره {phoneNumber} را وارد نمایید</p>
-                        <Form className={styles["custom-form"]} onSubmit={handleSubmit}>
+            {phase === Phases.OTP && (
+                <div>
+                    <p className={styles['instruction-text']}>{PERSIAN.confirmmation_code}</p>
+                    <p className={styles['description-text']}>{PERSIAN.enter_otp.replace("خود",`${phoneNumber}`)}</p>
+                    <Form className={styles["custom-form"]} onSubmit={handleSubmit}>
                         <Form.Group className={styles["form-group"]}>
-                            <input
+                            <Input
+                                borderType={"line"}
+                                openingAnimation={"regular-animation"}
+                                borderColor={"black-border"}
+                                transparent={"transparent"}
                                 type="text"
-                                className={styles["custom-input"]}
                                 id="otp-code"
                                 value={otpCode}
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Button type="submit" className={styles["btn-submit"]}>
-                            {PERSIAN.sign_in_or_up}
+                        <Button type="submit" size={'lg'} color={'grey'} textColor={"white-text"} disabled={loading}>
+                            {loading ? <Spinner animation="border" size="sm" /> : PERSIAN.sign_in_or_up}
                         </Button>
                         <p className={styles["redirect-text"]}>
-                            <a className={styles["link-spacing"]} onClick={() => setPhase(Phases.PHONE_NUMBER)}>
+                            <Anchor color={'black'} hover={"blue-underline"} underline={"disabled-underline"} onClick={() => setPhase(Phases.PHONE_NUMBER)} to={'/sign_up'}>
                                 {PERSIAN.change_number}
-                            </a>
+                            </Anchor>
                         </p>
-                        </Form>
-                    </div>
-                )
-            }
+                    </Form>
+                </div>
+            )}
         </>
     );
 };
