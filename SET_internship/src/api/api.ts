@@ -16,6 +16,14 @@ const API = {
 
     async LogInWithPassword<T> (requestBody: any): Promise<ApiResponse<T>>{
         return await Connect.post(endpoints.login_with_password, requestBody);
+    },
+
+    async getProfile<T> (): Promise<ApiResponse<T>> {
+        return await Connect.get('api/v1/authenticated/me', {
+            headers: {
+                'Authorization': `Bearer ${Connect.token}`,
+            },
+        });
     }
 }
 

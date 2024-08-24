@@ -80,6 +80,7 @@ const SignInForm = () => {
             console.log(data);
             if (data.success) {
                 localStorage.setItem('authentication-token', data.data.data.token);
+                Connect.token = data.data.data.token;
                 navigate('/dashboard');
                 toast(data.data.message, toastDetails.SUCCESS_CONFIG);
             }

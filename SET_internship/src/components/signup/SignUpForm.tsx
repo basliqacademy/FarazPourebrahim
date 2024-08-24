@@ -79,6 +79,7 @@ const SignUpForm = () => {
                     const data = await API.register(phoneNumber,otpCode);
                     if (data.success) {
                         localStorage.setItem('authentication-token', data.data.data.token);
+                        Connect.token = data.data.data.token;
                         navigate('/dashboard');
                         toast(data.data.message, toastDetails.SUCCESS_CONFIG);
                     } else {

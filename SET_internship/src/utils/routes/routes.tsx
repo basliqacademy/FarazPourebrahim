@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import SignUp from "../../components/signup/SignUp";
 import SignIn from "../../components/signin/SignIn";
 import Dashboard from "../../components/dashboard/Dashboard";
+import DashboardWithProvider from "../../components/dashboard/Dashboard";
 
 const router = createBrowserRouter([
     {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: <DashboardWithProvider />,
     },
 ]);
 
