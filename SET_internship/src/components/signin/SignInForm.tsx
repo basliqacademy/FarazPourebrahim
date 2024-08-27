@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Form, Spinner } from "react-bootstrap";
-import styles from "./SignInForm.module.css";
+import styles from "./SignInForm.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import Connect from "../../api/connect";
-import { BASE_URL } from "../../api/endpoints";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -46,46 +45,25 @@ const SignInForm = () => {
         e.preventDefault();
         setLoading(true);
 
-        function requestBodyBuilder(identifier) {
-
-            if (/^\d+$/.test(identifier)) {
-                if (identifier.length !== 11 || !identifier.startsWith("09")) {
-                    toast(PERSIAN.invalid_phone_number, toastDetails.ERROR_CONFIG);
-                    setLoading(false);
-                    return;
-                }
-            }
-
-            let requestBody = {};
-
-            requestBody['identifier'] = identifier;
-            requestBody['password'] = password;
-
-            if (emailRegex.test(identifier)) {
-                requestBody['type'] = 'email';
-            } else if (phoneRegex.test(identifier)) {
-                requestBody['type'] = 'mobile';
-            } else {
-                requestBody['type'] = 'username';
-            }
-
-            return requestBody;
-        }
-
-        Connect.configure(BASE_URL);
-
         async function handleConnection() {
-            let requestBody = requestBodyBuilder(identifier);
-            const data = await API.LogInWithPassword(requestBody);
-            console.log(data);
-            if (data.success) {
-                localStorage.setItem('authentication-token', data.data.data.token);
-                Connect.token = data.data.data.token;
+            let type;
+            if (emailRegex.test(identifier)) {
+                type = 'email';
+            } else if (phoneRegex.test(identifier)) {
+                type = 'mobile';
+            } else {
+                type = 'username';
+            }
+
+            const json = await API.logWithPassword({identifier, password, type});
+            console.log(json);
+            if (json.success) {
+                Connect.refreshToken(json.data.token);
                 navigate('/dashboard');
-                toast(data.data.message, toastDetails.SUCCESS_CONFIG);
+                toast(json.message, toastDetails.SUCCESS_CONFIG);
             }
             else {
-                toast(data.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
+                toast(json.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
             }
             setLoading(false);
         }
@@ -136,7 +114,7 @@ const SignInForm = () => {
                     </Button>
 
                     <p className={styles["redirect-text"]}>
-                        <Anchor color={"black"} hover={"blue-underline"} underline={"disabled-underline"} to={'/sign_up'}>
+                        <Anchor color={"black"} underline={"on-hover"} to={'/sign_up'}>
                             {PERSIAN.enter_with_otp}
                         </Anchor>
                     </p>

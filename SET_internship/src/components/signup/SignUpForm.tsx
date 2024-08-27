@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import {  Form, Spinner } from "react-bootstrap";
-import styles from "./SignUpForm.module.css";
+import styles from "./SignUpForm.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import Connect from "../../api/connect";
-import { BASE_URL } from "../../api/endpoints";
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-simple-toasts';
 import 'react-simple-toasts/dist/theme/dark.css';
@@ -57,33 +56,31 @@ const SignUpForm = () => {
             }
         }
 
-        Connect.configure(BASE_URL);
-
         async function handleConnection() {
             try {
                 if (phase === Phases.PHONE_NUMBER) {
-                    const validationData = await API.validateNumber(phoneNumber);
-                    console.log(validationData);
+                    // const validationData = await API.validateNumber(phoneNumber);
+                    // console.log(validationData);
 
-                    const data = await API.requestOTP(phoneNumber);
-                    console.log(data);
+                    const json = await API.requestOTP({mobile:phoneNumber});
+                    console.log(json);
 
-                    if (data.success) {
+                    if (json.success) {
                         setPhase(Phases.OTP);
-                        toast(data.data.message, toastDetails.SUCCESS_CONFIG);
+                        toast(json.message, toastDetails.SUCCESS_CONFIG);
                     } else {
-                        toast(data.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
+                        toast(json.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
                     }
 
                 } else if (phase === Phases.OTP) {
-                    const data = await API.register(phoneNumber,otpCode);
-                    if (data.success) {
-                        localStorage.setItem('authentication-token', data.data.data.token);
-                        Connect.token = data.data.data.token;
+                    const json = await API.register({mobile:phoneNumber, otp:otpCode});
+                    if (json.success) {
+                        localStorage.setItem('authentication-token', json.data.token);
+                        Connect.token = json.data.token;
                         navigate('/dashboard');
-                        toast(data.data.message, toastDetails.SUCCESS_CONFIG);
+                        toast(json.message, toastDetails.SUCCESS_CONFIG);
                     } else {
-                        toast(data.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
+                        toast(json.error || PERSIAN.action_failed, toastDetails.ERROR_CONFIG);
                     }
                 }
             } finally {
@@ -120,7 +117,7 @@ const SignUpForm = () => {
 
                         <p className={styles["redirect-text"]}>
                             {PERSIAN.have_account_already}
-                            <Anchor color={"black"} underline={"disabled-underline"} hover={"blue-underline"} to={'/sign_in'}>
+                            <Anchor color={"black"} underline={"on-hover"} to={'/sign_in'}>
                                 {PERSIAN.enter_with_password}
                             </Anchor>
                         </p>
@@ -149,7 +146,7 @@ const SignUpForm = () => {
                             {loading ? <Spinner animation="border" size="sm" /> : PERSIAN.sign_in_or_up}
                         </Button>
                         <p className={styles["redirect-text"]}>
-                            <Anchor color={'black'} hover={"blue-underline"} underline={"disabled-underline"} onClick={() => setPhase(Phases.PHONE_NUMBER)} to={'/sign_up'}>
+                            <Anchor color={'black'} underline={"on-hover"} onClick={() => setPhase(Phases.PHONE_NUMBER)} to={'/sign_up'}>
                                 {PERSIAN.change_number}
                             </Anchor>
                         </p>

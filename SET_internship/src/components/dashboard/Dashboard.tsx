@@ -2,29 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import Connect from "../../api/connect";
-import { BASE_URL } from "../../api/endpoints";
 import {UserProvider, useUser} from "../../context/UserContext";
 import API from "../../api/api";
 
 const Dashboard = () => {
     const [activeElement, setActiveElement] = useState('NewTask');
     const navigate = useNavigate();
-    const { setUser } = useUser();
+    const { user, setUser } = useUser();
 
     useEffect(() => {
-        Connect.configure(BASE_URL);
-
         async function handleConnection() {
-            const token = localStorage.getItem('authentication-token');
-            if (token) {
-                Connect.token = token;
-            }
+            Connect.refreshToken();
             const data = await API.getProfile();
 
             if (data && data.success) {
-                setUser(data.data);
+                setUser(data.data.data);
             } else {
-                navigate('/login');
+                navigate('/sign_in');
             }
         }
 
@@ -33,6 +27,7 @@ const Dashboard = () => {
 
     const handleProfileClick = () => {
         //navigate("/profile");
+        console.log(user);
     };
 
     return (

@@ -1,44 +1,70 @@
 enum ApiErrorType {
-    NETWORK = 'network',
-    CORS = 'cors',
+    NETWORK = 1,
+    CORS = 2,
     TIMEOUT = 408,
     SERVER = 500,
-    UNKNOWN = 'unknown',
+    FORMERROR = 422,
+    UNKNOWN = 0,
 }
 
 type SuccessResponse<T> = {
     success: true;
     data: T;
+    message: string;
+    status : boolean;
 }
 
 type ErrorResponse = {
     success: false;
     error: string;
     errorType: ApiErrorType;
+    formError?: {};
 }
 
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
 
 class Connect {
-    private static baseURL: string;
+    static token: string;
 
-    public static configure(baseURL: string) {
-        this.baseURL = baseURL;
+    public static refreshToken(newToken?){
+        if (newToken){
+            Connect.token = newToken;
+            localStorage.setItem('authentication-token', newToken);
+            return;
+        }
+
+        const localStorageToken = localStorage.getItem('authentication-token');
+        if (localStorageToken) {
+            Connect.token = localStorageToken;
+        }
     }
 
-    static token: string;
+    private static getHeaders(): HeadersInit {
+        return {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            ...(Connect.token && { 'Authorization': `Bearer ${Connect.token}` }),
+        };
+    }
 
     private static async request<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
         try {
-            const response = await fetch(`${this.baseURL}/${endpoint}`, options);
-            const data = await response.json();
+            const response = await fetch(endpoint, options);
+            const json = await response.json();
 
             if (response.ok) {
-                return { success: true, data };
+                return { success: true, data: json.data as T ,message: json.message, status: json.status};
+            } else if (response.status === 422) {
+                return {
+                    success: false,
+                    error: json?.message || 'Form validation error',
+                    errorType: ApiErrorType.FORMERROR,
+                    formError: json?.errors,
+                };
             } else {
                 return {
                     success: false,
-                    error: data?.message || 'Unknown error',
+                    error: json?.message || 'Unknown error',
                     errorType: ApiErrorType.SERVER,
                 };
             }
@@ -63,6 +89,7 @@ class Connect {
 
     public static get<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
         return this.request<T>(endpoint, {
+            headers: this.getHeaders(),
             method: 'GET',
             ...options,
         });
@@ -71,7 +98,7 @@ class Connect {
     public static post<T>(endpoint: string, body: any, options?: RequestInit): Promise<ApiResponse<T>> {
         return this.request<T>(endpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: this.getHeaders(),
             body: JSON.stringify(body),
             ...options,
         });
@@ -80,7 +107,16 @@ class Connect {
     public static put<T>(endpoint: string, body: any, options?: RequestInit): Promise<ApiResponse<T>> {
         return this.request<T>(endpoint, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: this.getHeaders(),
+            body: JSON.stringify(body),
+            ...options,
+        });
+    }
+
+    public static patch<T>(endpoint: string, body: any, options?: RequestInit): Promise<ApiResponse<T>> {
+        return this.request<T>(endpoint, {
+            method: 'PATCH',
+            headers: this.getHeaders(),
             body: JSON.stringify(body),
             ...options,
         });
@@ -89,7 +125,7 @@ class Connect {
     public static delete<T>(endpoint: string, body: any, options?: RequestInit): Promise<ApiResponse<T>> {
         return this.request<T>(endpoint, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
+            headers: this.getHeaders(),
             body: JSON.stringify(body),
             ...options,
         });

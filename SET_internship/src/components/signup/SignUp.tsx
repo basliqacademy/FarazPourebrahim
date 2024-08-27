@@ -1,4 +1,4 @@
-import styles from "./SignUpForm.module.css";
+import styles from "./SignUpForm.module.scss";
 import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
 import SignUpForm from "./SignUpForm";

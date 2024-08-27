@@ -3,12 +3,28 @@ a {
   cursor: pointer;
 
 
-  &.visible-underline {
-    text-decoration: underline;
+  .none {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
-  &.disabled-underline {
+  .underline {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &.hover{
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &.white {
@@ -21,20 +37,5 @@ a {
 
   &.brown {
     color: hsl(0, 16%, 16%);
-  }
-
-  &:hover {
-    &.underline {
-      text-decoration: underline;
-    }
-
-    &.blue-underline {
-      text-decoration: underline;
-      color: hsl(215, 98%, 52%);
-    }
-
-    &.none {
-      text-decoration: none;
-    }
   }
 }
