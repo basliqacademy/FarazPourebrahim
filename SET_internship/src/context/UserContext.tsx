@@ -1,4 +1,6 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, {createContext, useState, useContext, useEffect} from 'react';
+import Connect from "../api/connect";
+import API from "../api/api";
 
 type UserContextType = {
     user: any;
@@ -10,6 +12,22 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider= ({ children }) => {
     const [user, setUser] = useState<any>(null);
 
+    useEffect( () => {
+            async function handleConnection() {
+                Connect.refreshToken();
+                const json = await API.getProfile();
+
+                if (json && json.success) {
+                    setUser(json.data);
+                    console.log(user);
+                }
+            }
+
+            handleConnection();
+
+        }
+        ,[])
+
     return (
         <UserContext.Provider value={{ user, setUser }}>
             {children}
@@ -18,4 +36,3 @@ export const UserProvider= ({ children }) => {
 };
 
 export const useUser = () => useContext(UserContext);
-

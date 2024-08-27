@@ -10,21 +10,6 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const { user, setUser } = useUser();
 
-    useEffect(() => {
-        async function handleConnection() {
-            Connect.refreshToken();
-            const data = await API.getProfile();
-
-            if (data && data.success) {
-                setUser(data.data.data);
-            } else {
-                navigate('/sign_in');
-            }
-        }
-
-        handleConnection();
-    }, [navigate, setUser]);
-
     const handleProfileClick = () => {
         //navigate("/profile");
         console.log(user);
