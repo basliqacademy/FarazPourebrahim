@@ -7,12 +7,9 @@ import API from "../../api/api";
 
 const Dashboard = () => {
     const [activeElement, setActiveElement] = useState('NewTask');
-    const navigate = useNavigate();
-    const { user, setUser } = useUser();
 
     const handleProfileClick = () => {
         //navigate("/profile");
-        console.log(user);
     };
 
     return (
