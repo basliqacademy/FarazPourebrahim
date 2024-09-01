@@ -23,13 +23,13 @@
   min-height: 100dvh;
   min-width: 100%;
   font-family: "JetBrains Mono", serif;
-
   font-size: 24px;
   font-weight: 400;
   line-height: 31px;
 }
 
 .section {
+  min-width: 100%;
   padding: 20px 32px;
   opacity: 60%;
 
@@ -98,4 +98,12 @@
   &.state {
     color: var(--header-blue-color);
   }
+}
+
+.input {
+  font-family: "JetBrains Mono", serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 31px;
+  border-radius: none;
 }
