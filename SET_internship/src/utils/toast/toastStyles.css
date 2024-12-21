@@ -1,0 +1,27 @@
+:root{
+    --toast-error-color: hsla(0, 88%, 47%, 0.8);
+    --toast-success-color: hsla(89, 87%, 39%, 0.8);
+    --toast-warning-color: hsl(31, 94%, 56%);
+}
+
+.error-toast {
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: var(--toast-error-color);
+}
+
+.success-toast {
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: var(--toast-success-color);
+}
+
+.warning-toast {
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: var(--toast-warning-color);
+}
+
