@@ -1,0 +1,112 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Challenge 2</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="terminal-wrapper">
+      <div class="section info-section">
+        <ul class="st-info-line">
+          <li>40012235865421</li>
+          <li>Amirata</li>
+          <li>Faraji</li>
+          <li>Computer Engineering</li>
+        </ul>
+        <ul class="st-info-line">
+          <li>40112235824539</li>
+          <li>Ali</li>
+          <li>Sard-e Sahrae...</li>
+          <li>Civil Engineering</li>
+        </ul>
+      </div>
+      <div class="section success-section">
+        <div class="input-group">
+          <p class="line">
+            1.View students 2.Add a student 3.Edit a student 4.Remove a student
+          </p>
+          <p class="input line">>> 2</p>
+        </div>
+        <div class="input-group">
+          <p class="line">Enter student ID:</p>
+          <p class="input line">>> 40012235835731</p>
+        </div>
+        <div class="input-group">
+          <p class="line">Enter first name:</p>
+          <p class="input line">>> Javad</p>
+        </div>
+        <div class="input-group">
+          <p class="line">Enter last name:</p>
+          <p class="input line">>> Vaseghipour</p>
+        </div>
+        <div class="input-group">
+          <p class="line">Enter field of study:</p>
+          <p class="input line">>> Computer Engineering</p>
+        </div>
+        <p class="success line">Student entry created successfully.</p>
+      </div>
+      <div class="section info-section">
+        <div class="input-group">
+          <p class="line">
+            1.View students 2.Add a student 3.Edit a student 4.Remove a student
+          </p>
+          <p class="input line">>> 1</p>
+        </div>
+        <p class="state line">Viewing students</p>
+        <ul class="st-info-line header">
+          <li>Student ID</li>
+          <li>First Name</li>
+          <li>Last Name</li>
+          <li>Field of Study</li>
+        </ul>
+        <ul class="st-info-line">
+          <li>40012235865421</li>
+          <li>Amirata</li>
+          <li>Faraji</li>
+          <li>Computer Engineering</li>
+        </ul>
+        <ul class="st-info-line">
+          <li>40012235835731</li>
+          <li>Javad</li>
+          <li>Vaseghipour</li>
+          <li>Computer Engineering</li>
+        </ul>
+        <ul class="st-info-line">
+          <li>40112235824539</li>
+          <li>Ali</li>
+          <li>Sard-e Sahrae...</li>
+          <li>Civil Engineering</li>
+        </ul>
+      </div>
+      <div class="section error-section">
+        <div class="input-group">
+          <p class="line">
+            1.View students 2.Add a student 3.Edit a student 4.Remove a student
+          </p>
+          <p class="input line">>> 56</p>
+        </div>
+        <p class="error line">ERROR: Not a valid option.</p>
+      </div>
+      <div class="section info-section">
+        <p class="active line">
+          1.View students 2.Add a student 3.Edit a student 4.Remove a student
+        </p>
+      </div>
+      <input
+        type="text"
+        class="section input-section input line"
+        placeholder=">>"
+      />
+      <!-- <div class="section input-section">
+        <p class="input line">>> 2</p>
+      </div> -->
+    </div>
+  </body>
+</html>
